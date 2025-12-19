@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feliz Cumpleaños Saida 🎂</title>
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(#7b2cbf,#5a189a,#240046);
+  overflow:hidden;
+  font-family:Arial,sans-serif;
+}
+
+/* MENSAJE */
+.message{
+  position:absolute;
+  top:20px;
+  width:90%;
+  left:50%;
+  transform:translateX(-50%);
+  text-align:center;
+  line-height:1.5;
+  display:none;
+  background:rgba(255,255,255,0.9);
+  padding:15px;
+  border-radius:15px;
+  color:black;
+  z-index:5;
+}
+@media(max-width:480px){.message{font-size:16px}}
+@media(min-width:481px){.message{font-size:20px}}
+.glow{text-shadow:0 0 6px #fff,0 0 14px #ddd}
+
+/* BOTON MUSICA */
+.music-btn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  z-index:10;
+  background:#fff;
+  border:none;
+  border-radius:50%;
+  width:55px;
+  height:55px;
+  font-size:22px;
+  cursor:pointer;
+  box-shadow:0 6px 15px rgba(0,0,0,.3);
+}
+
+/* NUBES */
+.cloud{
+  position:absolute;
+  top:80px;
+  width:150px;
+  height:50px;
+  background:#fff;
+  border-radius:50px;
+  opacity:.9;
+  animation:moveClouds 50s linear infinite;
+}
+.cloud:before,.cloud:after{
+  content:"";
+  position:absolute;
+  width:60px;height:60px;
+  background:#fff;
+  border-radius:50%;
+  top:-30px;
+}
+.cloud:before{left:20px}
+.cloud:after{right:20px}
+@keyframes moveClouds{
+  from{transform:translateX(-200px)}
+  to{transform:translateX(120vw)}
+}
+
+/* ESTRELLAS */
+.star{
+  position:absolute;
+  font-size:10px;
+  animation:twinkle 3s infinite alternate;
+}
+@keyframes twinkle{from{opacity:.3}to{opacity:1}}
+
+/* ARBOLES */
+.tree{
+  position:absolute;
+  bottom:0;
+  width:80px;
+  height:180px;
+  background:#2d6a4f;
+}
+.tree:before{
+  content:"";
+  position:absolute;
+  bottom:120px;
+  left:-60px;
+  width:200px;
+  height:140px;
+  background:#40916c;
+  border-radius:50%;
+}
+
+/* MESA */
+.table{
+  position:absolute;
+  bottom:100px;
+  left:50%;
+  transform:translateX(-50%);
+  width:300px;
+  height:24px;
+  background:#7b4a12;
+  border-radius:12px;
+}
+.table:after{
+  content:"";
+  position:absolute;
+  top:24px;
+  left:35px;
+  width:230px;
+  height:95px;
+  background:#5c3a0e;
+  border-radius:0 0 20px 20px;
+}
+
+/* PASTEL */
+.cake{
+  position:absolute;
+  bottom:135px;
+  left:50%;
+  transform:translateX(-50%);
+  width:220px;
+  height:140px;
+  background:#ffe5ec;
+  border-radius:0 0 25px 25px;
+  box-shadow:0 10px 25px rgba(0,0,0,.4);
+  cursor:pointer;
+  z-index:4;
+}
+.cake:before{
+  content:"";
+  position:absolute;
+  top:-28px;
+  left:0;
+  width:220px;
+  height:32px;
+  background:#ffafcc;
+  border-radius:25px 25px 10px 10px;
+}
+.layer{
+  position:absolute;
+  left:10px;
+  width:200px;
+  height:20px;
+  background:linear-gradient(90deg,#ffcad4,#ff8fab,#ffcad4);
+  border-radius:10px;
+}
+.layer.one{top:25px}
+.layer.two{top:55px}
+.layer.three{top:85px}
+
+/* VELAS */
+.candle{
+  position:absolute;
+  width:10px;
+  height:30px;
+  background:white;
+  border-radius:3px;
+}
+.flame{
+  position:absolute;
+  top:-14px;
+  left:-5px;
+  width:20px;
+  height:20px;
+  background:radial-gradient(circle,yellow,orange,red);
+  border-radius:50%;
+  animation:flicker .3s infinite alternate;
+  display:none;
+}
+@keyframes flicker{from{transform:scale(1)}to{transform:scale(1.2)}}
+
+.cake-text{
+  position:absolute;
+  bottom:8px;
+  width:100%;
+  text-align:center;
+  font-weight:bold;
+}
+
+/* FUEGOS */
+canvas{
+  position:fixed;
+  top:0;left:0;
+  pointer-events:none;
+}
+</style>
+</head>
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<div class="message glow" id="mensaje"></div>
+
+<button class="music-btn" id="musicBtn">⏸️</button>
+
+<div class="cloud" style="top:80px"></div>
+<div class="cloud" style="top:140px;animation-duration:60s"></div>
+
+<div class="tree" style="left:5%"></div>
+<div class="tree" style="left:20%;transform:scale(.8)"></div>
+<div class="tree" style="left:80%;transform:scale(.9)"></div>
+
+<div class="table"></div>
+
+<div class="cake" id="cake">
+  <div class="layer one"></div>
+  <div class="layer two"></div>
+  <div class="layer three"></div>
+
+  <div class="candle" style="left:40px;top:-40px"><div class="flame"></div></div>
+  <div class="candle" style="left:100px;top:-40px"><div class="flame"></div></div>
+  <div class="candle" style="left:160px;top:-40px"><div class="flame"></div></div>
+  <div class="candle" style="left:60px;top:-10px"><div class="flame"></div></div>
+  <div class="candle" style="left:120px;top:-10px"><div class="flame"></div></div>
+
+  <div class="cake-text">🎂 Tócame 🎂</div>
+</div>
+
+<audio id="musica" loop preload="auto">
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_aa7ccfe3b6.mp3">
+</audio>
+
+<script>
+// ESTRELLAS
+for(let i=0;i<80;i++){
+ let s=document.createElement("div");
+ s.className="star";
+ s.innerHTML="✨";
+ s.style.left=Math.random()*100+"vw";
+ s.style.top=Math.random()*50+"vh";
+ document.body.appendChild(s);
+}
+
+// FUEGOS CORAZON
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;canvas.height=innerHeight;
+let particles=[];
+
+function heartFirework(x,y){
+ for(let t=0;t<Math.PI*2;t+=0.2){
+  let r=16*(1-Math.sin(t));
+  let px=x+r*Math.cos(t)*2;
+  let py=y-r*Math.sin(t)*2;
+  particles.push({x:px,y:py,vx:(px-x)/20,vy:(py-y)/20,l:60,c:"pink"});
+ }
+}
+
+document.addEventListener("click",(e)=>{
+ heartFirework(e.clientX,e.clientY);
+});
+
+(function animate(){
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+ particles.forEach((p,i)=>{
+  p.x+=p.vx;p.y+=p.vy;p.l--;
+  ctx.fillStyle=p.c;
+  ctx.beginPath();ctx.arc(p.x,p.y,2,0,Math.PI*2);ctx.fill();
+  if(p.l<=0)particles.splice(i,1);
+ });
+ requestAnimationFrame(animate);
+})();
+
+// TEXTO
+const texto=`Feliz Cumpleaños Saida Reyes 🎉
+
+Espero que sigas cumpliendo muchísimos años más de vida y sigas disfrutando a lo grande la linda vida que Dios te regaló.
+
+También agradezco la amistad que me das y espero poder estar para ti cuando sea. 💖
+
+— De Angel para Saida, te desea un feliz y bendecido cumpleaños ✨🙏`;
+
+let i=0, escribiendo=false;
+const msg=document.getElementById("mensaje");
+function escribir(){
+ if(i<texto.length){
+  msg.innerHTML+=texto[i]=="\n"?"<br>":texto[i];
+  i++;setTimeout(escribir,40);
+ }
+}
+
+// INTERACCION
+const cake=document.getElementById("cake");
+const musica=document.getElementById("musica");
+const btn=document.getElementById("musicBtn");
+
+cake.onclick=()=>{
+ if(escribiendo)return;
+ escribiendo=true;
+ document.querySelectorAll(".flame").forEach(f=>f.style.display="block");
+ msg.style.display="block";
+ musica.play().catch(()=>{});
+ escribir();
+};
+
+btn.onclick=()=>{
+ if(musica.paused){musica.play();btn.textContent="⏸️";}
+ else{musica.pause();btn.textContent="▶️";}
+};
+</script>
+
+</body>
+</html>
